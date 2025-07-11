@@ -1,17 +1,21 @@
 
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>استعلامات نقابة أطباء القاهرة</title>
+    <title>AI Assistant - Cairo Medical Syndicate</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+      /* The Cairo font is still linked for Arabic, but the default will be Tailwind's sans-serif stack */
       body {
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      }
+      body.font-cairo {
         font-family: 'Cairo', sans-serif;
       }
     </style>
@@ -22,13 +26,17 @@
     "react": "https://esm.sh/react@^19.1.0",
     "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
     "@google/genai": "https://esm.sh/@google/genai@^1.9.0",
-    "react-dropzone": "https://esm.sh/react-dropzone@^14.3.8"
+    "react-dropzone": "https://esm.sh/react-dropzone@^14.3.8",
+    "pdfjs-dist/build/pdf.mjs": "https://esm.sh/pdfjs-dist@4.5.136/build/pdf.mjs",
+    "pdfjs-dist/build/pdf.worker.mjs": "https://esm.sh/pdfjs-dist@4.5.136/build/pdf.worker.mjs",
+    "mammoth": "https://esm.sh/mammoth@1.8.0",
+    "pdfjs-dist/": "https://esm.sh/pdfjs-dist@^5.3.93/"
   }
 }
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-gray-100 dark:bg-gray-900">
+  <body class="bg-gray-300 dark:bg-gray-900">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

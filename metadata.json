@@ -1,5 +1,5 @@
 {
-  "name": "استعلامات نقابة أطباء القاهرة",
-  "description": "وكيل ذكاء اصطناعي يستخدم قاعدة معرفة مخصصة للإجابة على استفسارات أطباء نقابة القاهرة. يتضمن واجهة لإدارة وتغذية قاعدة المعرفة.",
+  "name": "AI Assistant - Cairo Medical Syndicate",
+  "description": "An AI agent that uses a custom knowledge base to answer inquiries from doctors of the Cairo Medical Syndicate. Includes an interface for managing and feeding the knowledge base.",
   "requestFramePermissions": []
 }

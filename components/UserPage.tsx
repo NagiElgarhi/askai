@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import ChatWindow from './ChatWindow';
 import ChatInput from './ChatInput';
@@ -8,34 +7,53 @@ import { generateChatResponseStream } from '../services/geminiService';
 interface UserPageProps {
     apiKey: string;
     knowledgeBaseContent: string;
+    userLang: string;
 }
 
-const UserPage: React.FC<UserPageProps> = ({ apiKey, knowledgeBaseContent }) => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
+const getInitialMessage = (lang: string): Message => {
+  if (lang.toLowerCase().startsWith('ar')) {
+    return {
       role: 'model',
-      content: 'مرحباً بكم مع أداة نقابة أطباء القاهرة للرد على إستفساركم',
-    },
+      content: 'مرحباً بكم في مساعد نقابة أطباء القاهرة. كيف يمكنني مساعدتكم اليوم؟',
+    };
+  }
+  return {
+    role: 'model',
+    content: 'Welcome to the AI Assistant for the Cairo Medical Syndicate. How can I help you today?',
+  };
+};
+
+const UserPage: React.FC<UserPageProps> = ({ apiKey, knowledgeBaseContent, userLang }) => {
+  const [messages, setMessages] = useState<Message[]>([
+    getInitialMessage(userLang),
   ]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSendMessage = async (input: string) => {
+    const isArabic = userLang.toLowerCase().startsWith('ar');
+
     if (!apiKey) {
-        setMessages(prev => [...prev, 
+        const errorMsg = isArabic
+            ? 'من فضلك أدخل مفتاح API الخاص بك في الشريط العلوي للمتابعة.'
+            : 'Please enter your API key in the header first to continue.';
+        setMessages(prev => [...prev,
             { role: 'user', content: input },
-            { role: 'model', content: 'الرجاء إدخال مفتاح API في الشريط العلوي أولاً لمتابعة.' }
+            { role: 'model', content: errorMsg }
         ]);
         return;
     }
-      
+
     if (!knowledgeBaseContent) {
-        setMessages(prev => [...prev, 
+        const errorMsg = isArabic
+            ? 'لم يتم تكوين قاعدة المعرفة بعد. يرجى الطلب من المسؤول زيارة صفحة الإدارة وتقديم المستندات اللازمة.'
+            : 'The knowledge base has not been configured yet. Please ask an administrator to visit the management page and provide the necessary documents.';
+        setMessages(prev => [...prev,
             { role: 'user', content: input },
-            { role: 'model', content: 'لم يتم تكوين قاعدة المعرفة بعد. يرجى الطلب من مسؤول النظام زيارة رابط الإدارة وتزويد المساعد بالمستندات اللازمة.' }
+            { role: 'model', content: errorMsg }
         ]);
         return;
     }
-      
+
     setIsLoading(true);
     const updatedMessages: Message[] = [...messages, { role: 'user', content: input }];
     setMessages(updatedMessages);
@@ -72,10 +90,22 @@ const UserPage: React.FC<UserPageProps> = ({ apiKey, knowledgeBaseContent }) => 
       console.error('Error sending message:', error);
        setMessages(prev => {
         const newMessages = [...prev];
-        const errorMessage = error instanceof Error ? error.message : "عذراً، حدث خطأ أثناء معالجة طلبك.";
+        const rawErrorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+        let finalErrorMessage: string;
+
+        if (rawErrorMessage.includes("API key")) {
+            finalErrorMessage = isArabic
+                ? 'مفتاح API غير صالح أو به مشكلة. يرجى التحقق منه.'
+                : 'The API key is invalid or has an issue. Please check it.';
+        } else {
+            finalErrorMessage = isArabic
+                ? 'عذراً، حدث خطأ أثناء معالجة طلبك.'
+                : 'Sorry, an error occurred while processing your request.';
+        }
+        
         newMessages[responseMessageId] = { 
             role: 'model', 
-            content: errorMessage.includes("API key") ? "مفتاح API غير صالح أو به مشكلة. يرجى التحقق منه." : errorMessage,
+            content: finalErrorMessage,
         };
         return newMessages;
       });

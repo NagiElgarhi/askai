@@ -1,5 +1,5 @@
 {
-  "name": "استعلامات-نقابة-أطباء-القاهرة",
+  "name": "ai-assistant---cairo-medical-syndicate",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,7 +12,11 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "@google/genai": "^1.9.0",
-    "react-dropzone": "^14.3.8"
+    "react-dropzone": "^14.3.8",
+    "pdfjs-dist/build/pdf.mjs": "4.5.136",
+    "pdfjs-dist/build/pdf.worker.mjs": "latest",
+    "mammoth": "1.8.0",
+    "pdfjs-dist": "^5.3.93"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

@@ -13,7 +13,7 @@
     "react-dom": "^19.1.0",
     "@google/genai": "^1.9.0",
     "react-dropzone": "^14.3.8",
-    "pdfjs-dist/build/pdf.mjs": "4.5.136",
+    "pdfjs-dist": "^4.5.136"
     "pdfjs-dist/build/pdf.worker.mjs": "latest",
     "mammoth": "1.8.0",
     "pdfjs-dist": "^5.3.93"
